@@ -1,0 +1,31 @@
+version: "3"
+services:
+  sonarqube:
+    image: sonarqube
+    container_name: sonarqube
+    ports:
+      - 9000:9000
+    networks:
+      - devsecops-network
+    environment:
+      - sonar.jdbc.url=jdbc:postgresql://db:5432/sonar
+    volumes:
+      - ./sonar_vol/conf:/opt/sonarqube/conf
+      - ./sonar_vol/data:/opt/sonarqube/data
+      - ./sonar_vol/extensions:/opt/sonarqube/extensions
+
+  db:
+    image: postgres
+    container_name: postgres
+    networks:
+      - devsecops-network
+    environment:
+      - POSTGRES_USER=sonar
+      - POSTGRES_PASSWORD=sonar
+    volumes:
+      - ./postgres_vol:/var/lib/postgresql
+      - ./postgres_vol/data:/var/lib/postgresql/data
+  
+networks:
+  devsecops-network:
+    driver: bridge
