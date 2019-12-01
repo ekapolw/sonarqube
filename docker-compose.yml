@@ -9,6 +9,7 @@ services:
       - devsecops-network
     environment:
       - sonar.jdbc.url=jdbc:postgresql://db:5432/sonar
+      - ES_JAVA_OPTS=-Xms750m -Xmx750m
     volumes:
       - ./sonar_vol/conf:/opt/sonarqube/conf
       - ./sonar_vol/data:/opt/sonarqube/data
